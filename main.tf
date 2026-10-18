@@ -18,7 +18,7 @@ resource "docker_container" "web" {
   image = docker_image.nginx.image_id
   ports {
     internal = 80
-    external = 9090
+    external = 9091
   }
   volumes {
     host_path      = "${path.cwd}/site"
