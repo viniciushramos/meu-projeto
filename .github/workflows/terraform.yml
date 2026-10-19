@@ -37,3 +37,15 @@ jobs:
         run: |
           sleep 5
           docker ps
+
+      - name: Teste de estado do banco
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          until docker exec meu-container-db pg_isready -U postgres; do sleep 2; done
+          sleep 8
+          docker exec meu-container-db psql -U postgres -c "CREATE TABLE IF NOT EXISTS teste (msg text);"
+          echo "Linhas ANTES de inserir:"
+          docker exec meu-container-db psql -U postgres -c "SELECT count(*) FROM teste;"
+          docker exec meu-container-db psql -U postgres -c "INSERT INTO teste VALUES ('dado da execucao');"
+          echo "Linhas DEPOIS de inserir:"
+          docker exec meu-container-db psql -U postgres -c "SELECT count(*) FROM teste;"
