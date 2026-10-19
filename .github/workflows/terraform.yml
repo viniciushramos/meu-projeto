@@ -36,7 +36,7 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           sleep 5
-          docker ps
+          curl -s http://localhost:9091 | grep "Atualizado via pipeline"
 
       - name: Teste de estado do banco
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
