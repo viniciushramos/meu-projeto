@@ -41,7 +41,7 @@ resource "docker_container" "db" {
   env   = ["POSTGRES_PASSWORD=senha123"]
   ports {
     internal = 5432
-    external = 9091
+    external = 5432
   }
   volumes {
     volume_name    = docker_volume.db_data.name
